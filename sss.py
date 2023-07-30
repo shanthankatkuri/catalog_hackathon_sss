@@ -1,12 +1,14 @@
 from random import randint
 
 # Prime number used to define the prime field
-p = int(input("Enter prime number to define prime field:"))
+p = int(input("Enter prime number to define prime field:"),16)
 
 # Function to generate a random polynomial of degree `threshold - 1` with the given constant term (the secret)
 def generate_random_polynomial(secret, threshold):
     coefficients = [secret] + [randint(1, p - 1) for _ in range(threshold - 1)]
+    print(coefficients)
     return coefficients
+    
 
 # Function to evaluate the polynomial at a given x (used to create shares)
 def evaluate_polynomial(coefficients, x):
@@ -42,7 +44,7 @@ def lagrange_interpolation(shares, prime):
 
 # Example usage:
 # The secret to be shared
-secret = int(input("Enter secrete:"))
+secret = int(input("Enter secret:"))
 
 # The number of shares to create and the threshold (minimum shares required for reconstruction)
 num_shares = int(input("Enter no.of shares:"))
@@ -53,7 +55,7 @@ shares = generate_shares(secret, num_shares, threshold)
 
 # Print the shares
 for share in shares:
-    print(f"Share {share[0]}: {share[1]}")
+    print(f"Share {share[0]}: {hex(share[1])}")
 
 # Reconstruct the secret from shares
 reconstructed_secret = lagrange_interpolation(shares[:threshold], p)
